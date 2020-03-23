@@ -50,7 +50,7 @@
 			Database::disconnect();
 		header("Location: customers.php")
 		
-	}
+	
 ?>
 
 
