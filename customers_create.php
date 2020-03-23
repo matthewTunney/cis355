@@ -49,7 +49,9 @@
 			$q->execute(array($name,$email,$mobile));
 			Database::disconnect();
 		header("Location: customers.php")
-		
+		}
+	}
+}
 	
 ?>
 
