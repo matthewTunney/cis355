@@ -48,11 +48,11 @@
 		
 			$q->execute(array($name,$email,$mobile));
 			Database::disconnect();
-		header("Location: customers.php")
-		}
-	}
-}
 	
+		header("Location: customers.php");
+	
+	}
+	}
 ?>
 
 
@@ -60,7 +60,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link   href="css/bootstrap.min.css" rel="stylesheet">
+    <link   href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="js/bootstrap.min.js"></script>
 </head>
 
