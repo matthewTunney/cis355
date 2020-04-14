@@ -28,10 +28,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	$descriptionError = null;
 	
 	// initialize $_POST variables
-	$date = $_POST['event_date'];
-	$time = $_POST['event_time'];
-	$location = $_POST['event_location'];
-	$description = $_POST['event_description'];	
+	$date = htmlspecialchars($_POST['event_date']);
+	$time = htmlspecialchars($_POST['event_time']);
+	$location = htmlspecialchars($_POST['event_location']);
+	$description = htmlspecialchars($_POST['event_description']);	
 	
 	// validate user input
 	$valid = true;
