@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="js/bootstrap.min.js"></script>
+	<link rel="icon" href="cardinal_logo.png" type="image/png" />
+    <script src="fr_vars.js"></script>
+    <script>
+        function retrievePage() {
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("body").innerHTML = xhttp.responseText;
+                }
+            };
+            
+            xhttp.open("GET", URL + "fr_persons.php", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+
+<body onload="retrievePage();">
+    <div id="body"></div>    
+</body>
+</html>
