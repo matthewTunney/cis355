@@ -34,17 +34,17 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	$zipError = null;
 
 	// initialize $_POST variables
-	$fname = $_POST['fname'];
-	$lname = $_POST['lname'];
-	$email = $_POST['email'];
-	$mobile = $_POST['mobile'];
+	$fname = htmlspecialchars($_POST['fname']);
+	$lname = htmlspecialchars($_POST['lname']);
+	$email = htmlspecialchars($_POST['email']);
+	$mobile = htmlspecialchars($_POST['mobile']);
 //	$password = $_POST['password'];
-	$title =  $_POST['title'];
+	$title =  htmlspecialchars($_POST['title']);
 	$picture = $_POST['picture']; // not used
-	$address =  $_POST['address'];
-	$city =  $_POST['city'];
-	$state =  $_POST['state'];
-	$zip =  $_POST['zip'];
+	$address =  htmlspecialchars($_POST['address']);
+	$city =  htmlspecialchars($_POST['city']);
+	$state =  htmlspecialchars($_POST['state']);
+	$zip =  htmlspecialchars($_POST['zip']);
 	
 	// initialize $_FILES variables
 	$fileName = $_FILES['userfile']['name'];
