@@ -20,6 +20,8 @@ $eventid = $_GET['event_id'];
 require '../database/database.php';
 require 'functions.php';
 
+
+
 if ( !empty($_POST)) {
 
 	// initialize user input validation variables
@@ -29,6 +31,12 @@ if ( !empty($_POST)) {
 	// initialize $_POST variables
 	$person = $_POST['person'];    // same as HTML name= attribute in put box
 	$event = $_POST['event'];
+	
+	$fileName = $_FILES['userfile']['name'];
+	$tmpName  = $_FILES['userfile']['tmp_name'];
+	$fileSize = $_FILES['userfile']['size'];
+	$fileType = $_FILES['userfile']['type'];
+	$content = file_get_contents($tmpName);
 	
 	// validate user input
 	$valid = true;
@@ -40,16 +48,28 @@ if ( !empty($_POST)) {
 		$eventError = 'Please choose an event';
 		$valid = false;
 	} 
-		
+	if($filesize > 0) {
+		if(in_array($_FILES['userfile']['type'], $types)) {
+		}
+		else {
+			$filename = null;
+			$filetype = null;
+			$filesize = null;
+			$filecontent = null;
+			$pictureError = 'improper file type';
+			$valid=false;
+			
+		}
+	}	
 	// insert data
 	if ($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$sql = "INSERT INTO fr_assignments 
-			(assign_per_id,assign_event_id) 
-			values(?, ?)";
+			(assign_per_id,assign_event_id, filename, filetype, filesize, filecontent) 
+			values(?, ?, ?, ?, ?, ?)";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($person,$event));
+		$q->execute(array($person,$event,$filename,$filetype,$filesize,$filecontent));
 		Database::disconnect();
 		header("Location: fr_assignments.php");
 	}
@@ -126,7 +146,14 @@ if ( !empty($_POST)) {
 						?>
 					</div>	<!-- end div: class="controls" -->
 				</div> <!-- end div class="control-group" -->
-
+<div class="control-group <?php echo !empty($pictureError)?'error':'';?>">
+					<label class="control-label">Picture</label>
+					<div class="controls">
+						<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
+						<input name="userfile" type="file" id="userfile">
+						
+					</div>
+				</div>
 				<div class="form-actions">
 					<button type="submit" class="btn btn-success">Confirm</button>
 						<a class="btn" href="fr_assignments.php">Back</a>
