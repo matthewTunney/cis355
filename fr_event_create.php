@@ -23,6 +23,12 @@ if ( !empty($_POST)) { // if not first time through
 	$locationError = null;
 	$descriptionError = null;
 	
+	$fileName = $_FILES['userfile']['name'];
+	$tmpName  = $_FILES['userfile']['tmp_name'];
+	$fileSize = $_FILES['userfile']['size'];
+	$fileType = $_FILES['userfile']['type'];
+	$content = file_get_contents($tmpName);
+	
 	// initialize $_POST variables
 	$date = htmlspecialchars($_POST['event_date']);
 	$time = htmlspecialchars($_POST['event_time']);
@@ -47,14 +53,29 @@ if ( !empty($_POST)) { // if not first time through
 		$descriptionError = 'Please enter Description';
 		$valid = false;
 	}
+	$types = array('image/jpeg','image/gif','image/png');
+
+	if($filesize > 0) {
+		if(in_array($_FILES['userfile']['type'], $types)) {
+		}
+		else {
+			$filename = null;
+			$filetype = null;
+			$filesize = null;
+			$filecontent = null;
+			$pictureError = 'improper file type';
+			$valid=false;
+			
+		}
+	}
 
 	// insert data
 	if ($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "INSERT INTO fr_events (event_date, event_time, event_location, event_description) values(?, ?, ?, ?)";
+		$sql = "INSERT INTO fr_events (event_date, event_time, event_location, event_description, filename,filesize,filetype,filecontent) values(?, ?, ?, ?, ?, ?, ?, ?)";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($date,$time,$location,$description));
+		$q->execute(array($date,$time,$location,$description, $filename, $filesize, $filetype, $filecontent));
 		Database::disconnect();
 		header("Location: fr_events.php");
 	}
@@ -121,6 +142,14 @@ if ( !empty($_POST)) { // if not first time through
 						<?php if (!empty($descriptionError)): ?>
 							<span class="help-inline"><?php echo $descriptionError;?></span>
 						<?php endif;?>
+					</div>
+				</div>
+					<div class="control-group <?php echo !empty($pictureError)?'error':'';?>">
+					<label class="control-label">Picture</label>
+					<div class="controls">
+						<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
+						<input name="userfile" type="file" id="userfile">
+						
 					</div>
 				</div>
 				
